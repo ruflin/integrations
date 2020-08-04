@@ -14,9 +14,9 @@ func createBaseFields() []fieldDefinition {
 			Description: "Dataset type.",
 		},
 		{
-			Name:        "dataset.name",
+			Name:        "dataset.dataset",
 			Type:        "constant_keyword",
-			Description: "Dataset name.",
+			Description: "Dataset dataset.",
 		},
 		{
 			Name:        "dataset.namespace",

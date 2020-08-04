@@ -19,7 +19,7 @@ type fieldsContent struct {
 }
 
 type fieldDefinition struct {
-	Name        string `yaml:"name,omitempty"`
+	Name        string `yaml:"dataset,omitempty"`
 	Key         string `yaml:"key,omitempty"`
 	Title       string `yaml:"title,omitempty"`
 	Group       *int   `yaml:"group,omitempty"`
@@ -84,7 +84,7 @@ func collectFieldNames(namePrefix string, f fieldDefinition) []string {
 }
 
 type multiFieldDefinition struct {
-	Name         string `yaml:"name,omitempty"`
+	Name         string `yaml:"dataset,omitempty"`
 	Type         string `yaml:"type,omitempty"`
 	Norms        *bool  `yaml:"norms,omitempty"`
 	DefaultField *bool  `yaml:"default_field,omitempty"`

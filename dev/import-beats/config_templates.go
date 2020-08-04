@@ -74,8 +74,8 @@ type updateConfigTemplateParameters struct {
 	moduleTitle string
 	packageType string
 
-	datasets  datasetContentArray
-	inputVars map[string][]util.Variable
+	datastreams datasetContentArray
+	inputVars   map[string][]util.Variable
 }
 
 func updateConfigTemplate(dsc configTemplateContent, params updateConfigTemplateParameters) (configTemplateContent, error) {
@@ -86,8 +86,8 @@ func updateConfigTemplate(dsc configTemplateContent, params updateConfigTemplate
 		dsc.inputs = map[string]configTemplateInput{}
 	}
 
-	for _, dataset := range params.datasets {
-		for _, stream := range dataset.manifest.Streams {
+	for _, datastream := range params.datastreams {
+		for _, stream := range datastream.manifest.Streams {
 			inputType := stream.Input
 
 			v, ok := dsc.inputs[inputType]
@@ -99,7 +99,7 @@ func updateConfigTemplate(dsc configTemplateContent, params updateConfigTemplate
 				}
 			}
 
-			v.datasetNames = append(v.datasetNames, dataset.name)
+			v.datasetNames = append(v.datasetNames, datastream.dataset)
 			dsc.inputs[inputType] = v
 		}
 	}

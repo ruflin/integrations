@@ -25,7 +25,7 @@ var ignoredModules = map[string]bool{"apache2": true}
 
 type packageContent struct {
 	manifest       util.Package
-	datasets       datasetContentArray
+	datastreams    datasetContentArray
 	images         []imageContent
 	kibana         kibanaContent
 	docs           []docContent
@@ -55,20 +55,20 @@ func newPackageContent(name string) packageContent {
 
 func (pc *packageContent) addDatasets(ds []datasetContent) {
 	for _, dc := range ds {
-		for i, v := range pc.datasets {
-			if v.name == dc.name {
+		for i, v := range pc.datastreams {
+			if v.dataset == dc.dataset {
 				if v.beatType != dc.beatType {
-					pc.datasets[i].name = fmt.Sprintf("%s_%s", pc.datasets[i].name, pc.datasets[i].beatType)
-					dc.name = fmt.Sprintf("%s_%s", dc.name, dc.beatType)
-					pc.datasets = append(pc.datasets, dc)
+					pc.datastreams[i].dataset = fmt.Sprintf("%s_%s", pc.datastreams[i].dataset, pc.datastreams[i].beatType)
+					dc.dataset = fmt.Sprintf("%s_%s", dc.dataset, dc.beatType)
+					pc.datastreams = append(pc.datastreams, dc)
 				} else {
-					log.Printf("Resolve naming conflict (packageName: %s, beatType: %s)", dc.name, dc.beatType)
-					pc.datasets[i] = dc
+					log.Printf("Resolve naming conflict (packageName: %s, beatType: %s)", dc.dataset, dc.beatType)
+					pc.datastreams[i] = dc
 				}
 				break
 			}
 		}
-		pc.datasets = append(pc.datasets, dc)
+		pc.datastreams = append(pc.datastreams, dc)
 	}
 }
 
@@ -198,7 +198,7 @@ func (r *packageRepository) createPackagesFromSource(beatsDir, beatName, beatTyp
 			aPackage.docs = append(aPackage.docs, docs...)
 		}
 
-		// datasets
+		// datastreams
 		var moduleTitle = "TODO"
 		if manifest.Title != nil {
 			moduleTitle = *manifest.Title
@@ -219,7 +219,7 @@ func (r *packageRepository) createPackagesFromSource(beatsDir, beatName, beatTyp
 			moduleName:  moduleName,
 			moduleTitle: moduleTitle,
 			packageType: beatType,
-			datasets:    datasets,
+			datastreams: datasets,
 			inputVars:   inputVarsPerInputType,
 		})
 		if err != nil {
@@ -278,8 +278,8 @@ func (r *packageRepository) save(outputDir string) error {
 		}
 
 		// dataset
-		for _, dataset := range content.datasets {
-			datasetPath := filepath.Join(packagePath, "dataset", dataset.name)
+		for _, datastream := range content.datastreams {
+			datasetPath := filepath.Join(packagePath, "dataset", datastream.dataset)
 			err := os.MkdirAll(datasetPath, 0755)
 			if err != nil {
 				return errors.Wrapf(err, "cannot make directory for dataset: '%s'", datasetPath)
@@ -429,7 +429,7 @@ func writeDoc(docsPath string, doc docContent, aPackage packageContent) error {
 	} else {
 		t, err = t.Funcs(template.FuncMap{
 			"fields": func(dataset string) (string, error) {
-				return renderExportedFields(dataset, aPackage.datasets)
+				return renderExportedFields(dataset, aPackage.datastreams)
 			},
 		}).ParseFiles(doc.templatePath)
 		if err != nil {

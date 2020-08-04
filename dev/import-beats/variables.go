@@ -133,7 +133,7 @@ func adjustVariablesFormat(mwvs manifestWithVars) (manifestWithVars, error) {
 	return withDefaults, nil
 }
 
-// shouldConfigOptionBeIgnored method checks if the configuration option name should be skipped (not used, duplicate, etc.)
+// shouldConfigOptionBeIgnored method checks if the configuration option dataset should be skipped (not used, duplicate, etc.)
 func shouldConfigOptionBeIgnored(optionName string, value interface{}) bool {
 	if value == nil {
 		return true

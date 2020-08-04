@@ -17,7 +17,7 @@ import (
 )
 
 type datasetContent struct {
-	name     string
+	dataset  string
 	beatType string
 
 	manifest util.Dataset
@@ -32,7 +32,7 @@ type datasetContentArray []datasetContent
 func (dca datasetContentArray) names() []string {
 	var names []string
 	for _, dc := range dca {
-		names = append(names, dc.name)
+		names = append(names, dc.dataset)
 	}
 	return names
 }
@@ -127,7 +127,7 @@ func createDatasets(beatType, modulePath, moduleName, moduleTitle string, module
 		}
 
 		contents = append(contents, datasetContent{
-			name:          datasetName,
+			dataset:       datasetName,
 			beatType:      beatType,
 			manifest:      manifest,
 			agent:         agent,

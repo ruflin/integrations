@@ -74,12 +74,12 @@ func loadElasticsearchContent(datasetPath string) (elasticsearchContent, error) 
 		if len(ingestPipelines) == 1 {
 			targetFileName, err = buildSingleIngestPipelineTargetName(ingestPipeline)
 			if err != nil {
-				return elasticsearchContent{}, errors.Wrapf(err, "can't build single ingest pipeline target name (path: %s)", ingestPipeline)
+				return elasticsearchContent{}, errors.Wrapf(err, "can't build single ingest pipeline target dataset (path: %s)", ingestPipeline)
 			}
 		} else {
 			targetFileName, err = determineIngestPipelineTargetName(ingestPipeline)
 			if err != nil {
-				return elasticsearchContent{}, errors.Wrapf(err, "can't determine ingest pipeline target name (path: %s)", ingestPipeline)
+				return elasticsearchContent{}, errors.Wrapf(err, "can't determine ingest pipeline target dataset (path: %s)", ingestPipeline)
 			}
 		}
 
