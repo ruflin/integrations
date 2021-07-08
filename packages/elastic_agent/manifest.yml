@@ -1,6 +1,6 @@
 name: elastic_agent
 title: Elastic Agent
-version: 0.0.7
+version: 0.0.8
 release: experimental
 description: Elastic Agent Integration
 type: integration
