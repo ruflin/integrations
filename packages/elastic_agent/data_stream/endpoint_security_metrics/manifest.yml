@@ -1,5 +1,5 @@
 title: Elastic Agent
-dataset: elastic_agent.endpoint
+dataset: elastic_agent.endpoint_security
 type: logs
 elasticsearch:
   index_template:
